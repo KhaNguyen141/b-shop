@@ -17,6 +17,7 @@ import {
 import LoginMenu from "../components/LoginMenu";
 
 import { selectIsAuthenticated, selectUser } from "../store/auth-slice";
+import { categoryList } from "../store/products";
 
 const NavMenu = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -24,6 +25,8 @@ const NavMenu = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
+  const category = useSelector(categoryList);
 
   return (
     <header>
@@ -44,10 +47,13 @@ const NavMenu = () => {
                 Categories
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
+                {/* <DropdownItem>Option 1</DropdownItem>
                 <DropdownItem>Option 2</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
+                <DropdownItem>Reset</DropdownItem> */}
+                {category.map((item, index) => {
+                  return <DropdownItem key={index}>{item.name}</DropdownItem>
+                })}
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
