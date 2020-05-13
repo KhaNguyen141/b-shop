@@ -6,12 +6,23 @@ interface ProductCategory {
     name: string;
 }
 
+interface Products {
+    id: number | string;
+    name: string;
+    price: number;
+    date: string;
+}
+
 interface ProductCategoryState {
     productCategory: ProductCategory[];
     
 }
 
-const initialState: ProductCategoryState = {
+interface ProductListState {
+    productsList: Products[];
+}
+
+const initialState: ProductCategoryState & ProductListState = {
     productCategory: [                
     {
         id: 1,
@@ -33,21 +44,47 @@ const initialState: ProductCategoryState = {
         id: 5,
         name: "Huawei",
     },
-],
+    ],
+    productsList: [
+        {
+            id: 1,
+            name: "Iphone 11 Pro",
+            price: 12.000,
+            date: "August 7th 2019",
+        },
+        {
+            id: 2,
+            name: "Iphone XS",
+            price: 12.000,
+            date: "Sepember 7th 2018",
+        },
+        {
+            id: 1,
+            name: "Iphone 11",
+            price: 12.000,
+            date: "July 27th 2019",
+        }
+    ],
 }
 
-export const category = createSlice({
-    name: "category",
+export const products = createSlice({
+    name: "products",
     initialState,
     reducers: {
-        fetchCategory: (state, {payload}: PayloadAction<ProductCategory>) => {
+        fetchCategory: (state = initialState, {payload}: PayloadAction<ProductCategory>) => {
             state.productCategory = [];
         },
+
+        fetchProducts: (state = initialState, {payload}: PayloadAction<Products>) => {
+            state.productsList = [];
+        }
     },
 })
 
-export const { fetchCategory } = category.actions;
+export const { fetchCategory, fetchProducts } = products.actions;
 
 export const categoryList = (state: RootState) => state.products.productCategory;
 
-export default category.reducer;
+export const productsList = (state: RootState) => state.products.productsList;
+
+export default products.reducer;

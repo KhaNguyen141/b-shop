@@ -51,7 +51,7 @@ const NavMenu = () => {
                 <DropdownItem>Option 2</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>Reset</DropdownItem> */}
-                {category.map((item) => {
+                {category.map((item: any) => {
                   return <DropdownItem key={item.id}>{item.name}</DropdownItem>
                 })}
               </DropdownMenu>
