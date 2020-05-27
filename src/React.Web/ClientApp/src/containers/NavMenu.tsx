@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 import LoginMenu from "../components/LoginMenu";
@@ -13,21 +12,6 @@ const NavMenu = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userName = useSelector(selectUser)?.name;
   const categories = useSelector(selectCategories);
-
-  useEffect(() => {
-    console.log('effect will run once');
-    const fetchListCategory = async () => {
-      try {
-        const res = await axios.get('https://192.168.1.5:7502/api/Categories')
-  
-        console.log(res.data);
-      }
-      catch (err) {
-        console.log(err);
-      }
-    }
-    fetchListCategory();
-}, []);
 
   return (
     <header>
