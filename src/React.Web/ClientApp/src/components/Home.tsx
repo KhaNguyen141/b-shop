@@ -1,10 +1,8 @@
 import React, { useRef } from "react";
-import { useSelector } from "react-redux";
-import { productsList } from "../store/products";
 
 const Home = () => {
 
-  const products = useSelector(productsList)
+  // const products = useSelector(productsList)
 
   const textInputRef = useRef<HTMLInputElement>(null);
 
@@ -23,7 +21,7 @@ const Home = () => {
           <button type="submit" className="btn btn-success">Submit</button>
           </form>
 
-          {products.map((product, index) => {
+          {/* {products.map((product, index) => {
             return <div className="card mt-4 col-4" key={index}>
                 <img className="card-img-top" style={{ width: "auto", height: "200px" }} src="https://hoanghamobile.com/Uploads/Originals/2019/09/17/201909171415023411_123.png;width=820;height=550;watermark=logo;crop=auto;format=jpg" alt="imageProduct"/>
                 <div className="card-body">
@@ -31,7 +29,7 @@ const Home = () => {
                   <p className="card-text">{product.price}</p>
                 </div>
               </div>
-          })}
+          })} */}
 
     </React.Fragment>;
 };

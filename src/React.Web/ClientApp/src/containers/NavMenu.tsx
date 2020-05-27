@@ -1,66 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-  Nav,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown,
-} from "reactstrap";
+import axios from "axios";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+
 import LoginMenu from "../components/LoginMenu";
 
 import { selectIsAuthenticated, selectUser } from "../store/auth-slice";
-import { categoryList } from "../store/products";
+import { selectCategories } from "../store/category";
 
 const NavMenu = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userName = useSelector(selectUser)?.name;
+  const categories = useSelector(selectCategories);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-
-  const category = useSelector(categoryList);
+  useEffect(() => {
+    console.log('effect will run once');
+    const fetchListCategory = async () => {
+      try {
+        const res = await axios.get('https://192.168.1.5:7502/api/Categories')
+  
+        console.log(res.data);
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    fetchListCategory();
+}, []);
 
   return (
     <header>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand tag={Link} to="/">
-          React.Web
-        </NavbarBrand>
-        <NavbarToggler onClick={toggle} className="mr-2" />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav navbar>
-            <NavItem>
-              <NavLink tag={Link} to="/">
-                Home
-              </NavLink>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Categories
-              </DropdownToggle>
-              <DropdownMenu right>
-                {/* <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem> */}
-                {category.map((item: any) => {
-                  return <DropdownItem key={item.id}>{item.name}</DropdownItem>
-                })}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Brand as={Link} to={`/`}>
+          BShop
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <NavDropdown title="Categories" id="collasible-nav-dropdown">
+              {categories.map((category) => (
+                <NavDropdown.Item key={category.id} as={Link} to={`/category/${category.id}`}>
+                  {category.name}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
           </Nav>
-          <Nav className="ml-auto" navbar>
-            <LoginMenu isAuthenticated={isAuthenticated} userName={userName} />
-          </Nav>
-        </Collapse>
+          <LoginMenu isAuthenticated={isAuthenticated} userName={userName} />
+        </Navbar.Collapse>
       </Navbar>
     </header>
   );
